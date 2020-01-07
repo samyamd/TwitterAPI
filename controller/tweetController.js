@@ -53,10 +53,18 @@ exports.addTweet = (req, res, next) => {
     // res.status(201).json({
     //     status:"success"
     // })
+    let imageFile;
+    if(req.file){
+      imageFile = 'image: req.file.filename';
+    }
+    else{
+      imageFile = ""
+    }
+
     const tweet = new Tweet({
-      username: req.body.username,
+      username: req.user.username,
+      imageFile,
       tweet: req.body.tweet,
-      image: req.file.filename
     });
     tweet
       .save()

@@ -4,15 +4,13 @@ const bodyParser = require("body-parser");
 const UserRoute = require("./routes/userRoute");
 const tweetRoute = require("./routes/tweetRoute");
 const app = express();
-const dotenv = require("dotenv");
-dotenv.config({ path: "./config/config.env" });
-
+require("dotenv").config();
 // console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.use(express.static(`${__dirname}/public/uploads`));
+app.use(express.static(`${__dirname}/public`));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // app.use(express.urlencoded({extended: true}));

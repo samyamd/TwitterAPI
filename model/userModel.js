@@ -12,7 +12,6 @@ const userSchema = mongoose.Schema({
     },
     username: {
         type: String,
-        minlength: 6,
         unique: [true,"Username is already taken. Please try another one."],
         required: [true,"Username field is required."]
     },

@@ -20,7 +20,7 @@ router
 router
   .route("/:username")
   .get(auth.verifyUser,user.showUser)
-  .patch(auth.verifySingleUser,user.updateUser)
-  .delete(auth.verifySingleUser,user.deleteUser);
+  // .patch(auth.verifySingleUser,user.updateUser)
+  // .delete(auth.verifySingleUser,user.deleteUser);
 
 module.exports = router;
