@@ -29,6 +29,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/",(req,res)=>{
+  res.send("Twitter API")
+})
 app.use("/user", UserRoute);
 app.use("/tweet", tweetRoute);
 

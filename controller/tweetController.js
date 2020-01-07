@@ -77,12 +77,7 @@ exports.addTweet = (req, res, next) => {
 exports.allTweets = async (req,res,next)=> {
   const tweet = await Tweet.find();
   try {
-    res.status(200).json({
-      status: "Success",
-      //   requestTime: req.requestTime,
-      result: tweet.length,
-      data: tweet
-    });
+    res.status(200).send(tweet);
   } catch (error) {
     res.status(200).json({
       status: "Failure",
@@ -91,61 +86,3 @@ exports.allTweets = async (req,res,next)=> {
     });
   }
 }
-
-// exports.showUser = (req, res, next) => {
-//   const user = User.findOne({ username: req.params.username });
-//   user
-//     .select("-_id name username email phone profile_picture cover_picture")
-//     .then(user => {
-//       res.status(200).json({
-//         user
-//       });
-//     });
-// };
-
-// exports.updateUser = (req, res, next) => {
-//   res.status(201).json({
-//     message: "Update Done"
-//   });
-// };
-// exports.deleteUser = (req, res, next) => {
-//   res.status(201).json({
-//     message: "Update Done"
-//   });
-// };
-
-// exports.loginUser = (req, res, next) => {
-//   User.findOne({ username: req.body.username })
-//     .then(user => {
-//       if (user == null) {
-//         let err = new Error("User not found!");
-//         err.status = 401;
-//         return next(err);
-//       } else {
-//         bcrypt
-//           .compare(req.body.password, user.password)
-//           .then(isMatch => {
-//             if (!isMatch) {
-//               let err = new Error("Incorrect Password!");
-//               err.status = 401;
-//               return next(err);
-//             }
-//             let token = jwt.sign(
-//               { username: user.username, _id: user._id },
-//               process.env.TOKEN,
-//               { expiresIn: "1h" }
-//             );
-//             res.json({
-//               status: "Login success!",
-//               token: token,
-//               request: {
-//                 type: "GET",
-//                 url: `localhost:3000/user/${user.username}`
-//               }
-//             });
-//           })
-//           .catch(next);
-//       }
-//     })
-//     .catch(next);
-// };

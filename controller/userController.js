@@ -32,7 +32,8 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({ storage: storage });
-exports.uploadProfile = upload.single("profile_image");
+
+exports.uploadProfile = upload.single("image");
 
 // const auth = require('../auth')
 
@@ -58,19 +59,25 @@ exports.registerUser = (req, res, next) => {
   let password = req.body.password;
   bcrypt.hash(password, 10, function(err, hash) {
     if (err) {
-      let err = new Error("Could not hash!");
+      let err = new Error();
       err.status = 500;
       return next(err);
     }
-    console.log(req.file.filename);
+    // console.log(req.file.filename);
+    let imagefile;
+    if(req.file){
+      imagefile = `image: ${req.file.filename}`
+    }
+    else{
+      imagefile = ""
+    }
     const user = new User({
       name: req.body.name,
       email: req.body.email,
-      phone: req.body.phone,
+      // phone: req.body.phone,
       username: req.body.username,
-      password: hash,
-      profile_picture: req.file.filename,
-      cover_picture: req.body.cover_image
+      imagefile,
+      password: hash
     });
     user
       .save()
@@ -93,7 +100,7 @@ exports.registerUser = (req, res, next) => {
 exports.showUser = (req, res, next) => {
   const user = User.findOne({ username: req.params.username });
   user
-    .select("-_id name username email phone profile_picture cover_picture")
+    .select("-_id name username email phone profile_picture")
     .then(user => {
       res.status(200).json({
         user
@@ -113,7 +120,7 @@ exports.deleteUser = (req, res, next) => {
 };
 
 exports.loginUser = (req, res, next) => {
-  User.findOne({ username: req.body.username })
+  User.findOne({$or: [{username: req.body.username} , {email: req.body.email}] })
     .then(user => {
       if (user == null) {
         let err = new Error("User not found!");
@@ -147,3 +154,7 @@ exports.loginUser = (req, res, next) => {
     })
     .catch(next);
 };
+
+exports.checkUser = (req,res,next) =>{
+  
+}

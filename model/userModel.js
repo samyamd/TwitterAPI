@@ -3,30 +3,26 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
     name:{
         type: String,
-        required: [true,"Name must be provided."]
+        required: [true,"Name field is required."]
     },
     email:{
         type:String,
-        required:[true,"Email must be provided."],
-        unique: [true,"Email is already taken."]
+        required:[true,"Email field is required."],
+        unique: [true,"Email is already taken. Please try another one."]
     },
     username: {
         type: String,
         minlength: 6,
-        unique: [true,"Username is already taken."],
-        required: [true,"Username must be provided."]
+        unique: [true,"Username is already taken. Please try another one."],
+        required: [true,"Username field is required."]
     },
-    phone: {
+    // phone: {
+    //     type: String,
+    //     required: [true,"Phone Number field is required."]
+    // },
+    image: {
         type: String,
-        required: [true,"Phone Number must be provided."]
-    },
-    profile_picture: {
-        type: String,
-        default: 'profile.jpg'
-    },
-    cover_picture: {
-        type: String,
-        default: 'cover.jpg'
+        default: 'user.png'
     },
     password: {
         type: String,
