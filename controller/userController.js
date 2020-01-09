@@ -40,12 +40,7 @@ exports.uploadProfile = upload.single("image");
 exports.getRegister = async (req, res, next) => {
   const user = await User.find();
   try {
-    res.status(200).json({
-      status: "Success",
-      //   requestTime: req.requestTime,
-      result: user.length,
-      data: user
-    });
+    res.status(200).send(user);
   } catch (error) {
     res.status(200).json({
       status: "Failure",
@@ -64,19 +59,19 @@ exports.registerUser = (req, res, next) => {
       return next(err);
     }
     // console.log(req.file.filename);
-    let imagefile;
-    if(req.file){
-      imagefile = `image: ${req.file.filename}`
-    }
-    else{
-      imagefile = ""
-    }
+    // let imagefile;
+    // if(req.file){
+    //   imagefile = `image: ${req.file.filename}`
+    // }
+    // else{
+    //   imagefile = ""
+    // }
     const user = new User({
       name: req.body.name,
       email: req.body.email,
       // phone: req.body.phone,
       username: req.body.username,
-      imagefile,
+      image: req.body.image,
       password: hash
     });
     user
@@ -97,16 +92,18 @@ exports.registerUser = (req, res, next) => {
   });
 };
 
-exports.showUser = (req, res, next) => {
-  const user = User.findOne({ username: req.params.username });
-  user
-    .select("-_id name username email phone profile_picture")
-    .then(user => {
-      res.status(200).json({
-        user
-      });
-    });
-};
+// exports.showUser = (req, res, next) => {
+//   const user = User.findOne({ username: req.params.username });
+//   user
+//     .select("-_id name username email phone profile_picture")
+//     .then(user => {
+//       res.status(200).send(user);
+//     });
+// };
+
+exports.me = (req,res,next) => {
+  res.send(req.user)
+}
 
 exports.updateUser = (req, res, next) => {
   res.status(201).json({
@@ -141,7 +138,7 @@ exports.loginUser = (req, res, next) => {
               {expiresIn: "1h"}
             );
             res.json({
-              status: "Login success!",
+              status: "Successful",
               token: token,
               request: {
                 type: "GET",
@@ -156,5 +153,15 @@ exports.loginUser = (req, res, next) => {
 };
 
 exports.checkUser = (req,res,next) =>{
-  
+    User.findOne({$or: [{ email: req.body.email } , { username: req.body.username }]})
+        .then((user) => {
+            if (user == null) {
+                res.json({ status: "OK" });
+
+            } else {
+                res.json({ status: "BAD" });
+            }
+        }
+
+        )
 }

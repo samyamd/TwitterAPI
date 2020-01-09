@@ -5,6 +5,14 @@ const tweetSchema = mongoose.Schema({
         type: String,
         ref: 'User'
     },
+    name: {
+        type: String,
+        required: true
+    },
+    user_image: {
+        type: String,
+        required: true
+    },
     tweet: {
         type:String
     },

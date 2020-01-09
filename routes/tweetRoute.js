@@ -3,7 +3,9 @@ const tweet = require("../controller/tweetController");
 var router = express.Router();
 const auth = require("../middleware/auth");
 
-router.route("/").get(tweet.allTweets);
+router.route("/")
+.get(tweet.allTweets)
+.post(auth.verifyUser,tweet.allTweets)
 // .post(user.registerUser);
 
 router
