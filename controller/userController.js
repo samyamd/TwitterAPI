@@ -19,9 +19,10 @@ var storage = multer.diskStorage({
     ) {
       cb(null, imagename);
       // filetype = "gif";
-    } else {
-      cb();
     }
+    //  else {
+    //   cb(null,null);
+    // }
     // if () {
     //   filetype = "png";
     // }
@@ -101,9 +102,9 @@ exports.registerUser = (req, res, next) => {
 //     });
 // };
 
-exports.me = (req,res,next) => {
-  res.send(req.user)
-}
+exports.me = (req, res, next) => {
+  res.send(req.user);
+};
 
 exports.updateUser = (req, res, next) => {
   res.status(201).json({
@@ -117,7 +118,9 @@ exports.deleteUser = (req, res, next) => {
 };
 
 exports.loginUser = (req, res, next) => {
-  User.findOne({$or: [{username: req.body.username} , {email: req.body.email}] })
+  User.findOne({
+    $or: [{ username: req.body.username }, { email: req.body.email }]
+  })
     .then(user => {
       if (user == null) {
         let err = new Error("User not found!");
@@ -135,7 +138,7 @@ exports.loginUser = (req, res, next) => {
             let token = jwt.sign(
               { username: user.username, _id: user._id },
               process.env.TOKEN,
-              {expiresIn: "1h"}
+              { expiresIn: "1h" }
             );
             res.json({
               status: "Successful",
@@ -152,16 +155,13 @@ exports.loginUser = (req, res, next) => {
     .catch(next);
 };
 
-exports.checkUser = (req,res,next) =>{
-    User.findOne({$or: [{ email: req.body.email } , { username: req.body.username }]})
-        .then((user) => {
-            if (user == null) {
-                res.json({ status: "OK" });
-
-            } else {
-                res.json({ status: "BAD" });
-            }
-        }
-
-        )
-}
+exports.checkUser = (req, res, next) => {
+  User.findOne({ email: req.body.email })
+  .then(user => {
+    if (user == null) {
+      res.json({ check: "OK" });
+    } else {
+      res.json({ check: "BAD" });
+    }
+  });
+};

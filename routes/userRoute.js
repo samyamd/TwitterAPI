@@ -9,7 +9,10 @@ router
   .get(user.getRegister)
   .post(user.registerUser);
 
-router.post("/upload", user.uploadProfile);
+router.post("/upload", user.uploadProfile,(req,res)=>{
+  console.log(req.file.filename)
+  res.json(req.file)
+});
 
 router
   .route("/login")
@@ -19,6 +22,7 @@ router
   .post(user.loginUser);
 
 router.route("/me").get(auth.verifyUser, user.me);
+router.post("/check", user.checkUser);
 // .patch(auth.verifySingleUser,user.updateUser)
 // .delete(auth.verifySingleUser,user.deleteUser);
 

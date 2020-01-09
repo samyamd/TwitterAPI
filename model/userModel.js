@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema({
     username: {
         type: String,
         unique: [true,"Username is already taken. Please try another one."],
-        required: [true,"Username field is required."]
+        // required: [true,"Username field is required."]
     },
     // phone: {
     //     type: String,
