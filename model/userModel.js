@@ -12,13 +12,8 @@ const userSchema = mongoose.Schema({
     },
     username: {
         type: String,
-        unique: [true,"Username is already taken. Please try another one."],
-        // required: [true,"Username field is required."]
+        default: "samyamdw"
     },
-    // phone: {
-    //     type: String,
-    //     required: [true,"Phone Number field is required."]
-    // },
     image: {
         type: String,
         default: 'user.png'

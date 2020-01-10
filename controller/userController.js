@@ -81,12 +81,7 @@ exports.registerUser = (req, res, next) => {
         let token = jwt.sign({ _id: user._id }, process.env.TOKEN);
         res.status(201).json({
           status: "Registration success!",
-          user,
-          token: token,
-          request: {
-            type: "GET",
-            url: `http://localhost/user/${user.username}`
-          }
+          token: token
         });
       })
       .catch(err => console.log(err));

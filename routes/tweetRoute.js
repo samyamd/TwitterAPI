@@ -4,7 +4,7 @@ var router = express.Router();
 const auth = require("../middleware/auth");
 
 router.route("/")
-.get(tweet.allTweets)
+.get(auth.verifyUser,tweet.allTweets)
 .post(auth.verifyUser,tweet.allTweets)
 // .post(user.registerUser);
 

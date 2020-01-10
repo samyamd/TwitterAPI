@@ -48,11 +48,12 @@ exports.allTweets = async (req, res, next) => {
 exports.addTweet = (req, res, next) => {
     let imageFile;
     if(req.file){
-      imageFile = 'image: req.file.filename';
+      imageFile = `image: ${req.file.filename}`;
     }
     else{
       imageFile = ""
     }
+    console.log(imageFile);
 console.log(req.user);
     const tweet = new Tweet({
       name: req.user.name,
