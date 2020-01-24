@@ -32,7 +32,14 @@ var storage = multer.diskStorage({
   }
 });
 
-var upload = multer({ storage: storage });
+const fileFilter = (req, file, cb) => {
+  if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+    return cb(new Error("Please upload only image files!"), false);
+  }
+  cb(null, true);
+};
+
+var upload = multer({ storage: storage, fileFilter: fileFilter });
 
 exports.uploadProfile = upload.single("image");
 
@@ -151,8 +158,7 @@ exports.loginUser = (req, res, next) => {
 };
 
 exports.checkUser = (req, res, next) => {
-  User.findOne({ email: req.body.email })
-  .then(user => {
+  User.findOne({ email: req.body.email }).then(user => {
     if (user == null) {
       res.json({ check: "OK" });
     } else {

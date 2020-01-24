@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const userSchema = mongoose.Schema({
+    id:Number,
     name:{
         type: String,
         required: [true,"Name field is required."]
@@ -21,12 +23,10 @@ const userSchema = mongoose.Schema({
     password: {
         type: String,
         required: [true,"Password field can not be empty."]
-    },
-    created_at: {
-        type: Date,
-        default: new Date().toISOString()
     }
-})
+},{ timestamps: true });
+
+userSchema.plugin(AutoIncrement, {inc_field: 'id'});
 
 const users = mongoose.model('User',userSchema)
 module.exports = users

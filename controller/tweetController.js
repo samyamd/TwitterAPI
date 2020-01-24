@@ -53,7 +53,7 @@ exports.addTweet = (req, res, next) => {
     else{
       imageFile = ""
     }
-    console.log(imageFile);
+    
 console.log(req.user);
     const tweet = new Tweet({
       name: req.user.name,
